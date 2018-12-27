@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>vue-resource的基本使用</title>
+    <script src="https://cdn.staticfile.org/vue/2.4.0/vue.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.1"></script>
+</head>
+<body>
+    <div id="app">
+        <input type="button" value="get请求" @click="getInfo">
+        <input type="button" value="post请求" @click="postInfo">
+        <input type="button" value="jsonp请求" @click="jsonpInfo">
+    </div>
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {},
+            methods: {
+                getInfo() {
+                    this.$http.get('http://vue.studyit.io/api/getlunbo').then(function(result) {
+                        console.log(result)
+                    })
+                },
+                postInfo() {
+                    // application/x-www-form-urlencoded 
+                    //手动发起的post请求默认没有表单格式
+                    //通过post方法的第三个参数，{emlulateJOSN: true}设置提交的内容类型为普通表单数据格式
+                    this.$http.post('http://vue.studyit.io/api/post', {}, {emlulateJOSN: true}).then(result => {
+                        console.log(result)
+                    })
+                },
+                jsonpInfo() {
+                    this.$http.post('http://vue.studyit.io/api/jsonp').then(result => {
+                        console.log(result,body)
+                    })
+                }
+            }
+        })
+    </script>
+</body>
+</html>

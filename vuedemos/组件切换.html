@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>组件切换</title>
+
+        <!-- Bootstrap CSS -->
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://raw.githubusercontent.com/daneden/animate.css/master/animate.css">
+        <script src="https://cdn.staticfile.org/vue/2.4.0/vue.min.js"></script>
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.3/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+        <style>
+            .v-enter,
+            .v-leave-to {
+                opacity: 0;
+                transform: translateX(150px);
+            }
+
+            .v-enter-active,
+            .v-leave-active {
+                transition: all 0.5s ease;
+            }
+        </style>
+    </head>
+    <body>
+        
+        <div id="app">
+            <a href="" @click.prevent="comName='login'">登陆</a>
+            <a href="" @click.prevent="comName='register'">注册</a>
+            
+            <!-- 通过mode属性，设置组件切换时候的模式 -->
+            <transition mode="out-in">
+                    <component :is="comName"></component>
+            </transition>
+        </div>
+
+        <script>
+            Vue.component('login', {
+                template: '<h3>登陆组件</h3>'
+            })
+            
+            Vue.component('register', {
+                template: '<h3>注册组件</h3>'
+            })
+
+            var vm = new Vue({
+                el: '#app',
+                data: {
+                    // flag: true
+                    comName: 'login' //当前component中 :is属性绑定的组件名称
+                },
+                methods: {}
+            })
+        </script>
+
+<script>
+    var b = 1;
+    function outer () {
+        var b = 2;
+        function inner() {
+            b ++;
+            var b = 3;
+            console.log(b);
+        }
+        inner();
+    }
+    outer();
+</script>
+        <!-- jQuery -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <!-- Bootstrap JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    </body>
+</html>

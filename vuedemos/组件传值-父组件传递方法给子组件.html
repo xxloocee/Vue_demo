@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>父组件传递子组件方法</title>
+    <script src="https://cdn.staticfile.org/vue/2.4.0/vue.min.js"></script>
+</head>
+<body>
+    <div id="app">
+        <com2 @func="show"></com2>
+    </div>
+
+    <template id="tmp1">
+        <div>
+            <h1>这是 子组件</h1>
+            <input type="button" value="点击触发" @click="myclick">
+        </div>
+    </template>
+    <script>
+        var com2 = {
+            template: '#tmp1',
+            data() {
+                return {
+                    sonmsg: { name: '小头儿子', age: 6}
+                }
+            },
+            methods: {
+                myclick() {
+                    // this.$emit('func', 123)
+                    this.$emit('func', this.sonmsg)
+                }
+            }
+        }
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                datamsgFormSon: null
+            },
+            methods: {
+                show(data) {
+                    // console.log('调用了父组件上的show方法: ---' + data)
+                    this.datamsgFormSon = data  
+                }
+            },
+            components: {
+                com2
+            }
+        }) 
+    </script>
+</body>
+</html>

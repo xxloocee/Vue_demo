@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>vue-resource改造品牌列表案例</title>
+    <script src="https://cdn.staticfile.org/vue/2.4.0/vue.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.1"></script>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/css/bootstrap.min.css">
+</head>
+<body>
+    <div id="app">
+        
+        <div class="panel panel-primary">
+              <div class="panel-heading">
+                    <h3 class="panel-title">添加品牌</h3>
+              </div>
+              <div class="panel-body form-inline" :style="{'margin-bottom': '10px'} ">
+                    <label>
+                        Name:
+                        <input type="text" v-model="name" class="form-control">
+                    </label>
+                    <input type="button" value="添加" @click="add" class="btn btn-primary">
+              </div>
+        </div>
+        
+        <table class="table table-bordered table-hover table-striped">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Ctime</th>
+                    <th>Operation</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="item in list" :key="item.id">
+                    <td>{{item.id}} </td>
+                    <td>{{item.name}} </td>
+                    <td>{{item.ctime}} </td>
+                    <td>
+                        <a href="" @click.prevent="del(item.id)">删除</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <script>
+        // 设置全局数据跟域名
+        Vue.http.options.root = 'http://vue.studyit.io/';
+        // 全局启用
+        Vue.http.options.emulateJSON = true; 
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                name: '',
+                list: []
+            },
+            created() {
+                this.getAllList()
+            },
+            methods: {
+                getAllList() {
+                    this.$http.get('api/getprolist').then(result => {
+                        var result = result.body
+                        if (result.status === 0) {
+                            this.list = result.message
+                        } else {
+                            alert('获取数据失败！')
+                        }
+                    })
+                },
+                add() {
+                    this.$http.post('api/addproduct', { name: this.name }).then(result => {
+                        if (result.body.status === 0) {
+                            this.getAllList()
+                        } else {
+                            alert('添加失败！')
+                        }
+                    })
+                },
+                del() {
+                    this.$http.get('api/delproduct' + id).then(result => {
+                        if(result.body.status === 0) {
+                            this.getAllList()
+                        } else {
+                            alert('删除失败！')
+                        }
+                    })
+                }
+            }
+        })
+    </script>
+</body>
+</html>
