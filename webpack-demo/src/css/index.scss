@@ -1,0 +1,21 @@
+body,html {
+    margin: 0;
+    padding: 0;
+    li {
+        font-size: 12px;
+        line-height: 30px;
+        color: aqua;
+    }
+    .box1 {
+        width: 500px;
+        height: 300px;
+        background: url(../images/11.jpg) no-repeat;
+        background-size: 100%;
+    }
+    .box2 {
+        width: 500px;
+        height: 300px;
+        background: url(../images/12.jpg) no-repeat;
+        background-size: 100%;
+    }
+}
